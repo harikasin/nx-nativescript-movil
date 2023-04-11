@@ -1,0 +1,1 @@
+# nx-angular-nativescript-sidedrawer
