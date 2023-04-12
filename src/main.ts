@@ -2,9 +2,6 @@ import { platformNativeScript, runNativeScriptAngularApp } from '@nativescript/a
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppModule } from './app.module';
-import { install } from '@nativescript-community/ui-drawer';
-
-install();
 
 if (environment.production) {
   enableProdMode();

@@ -1,34 +1,47 @@
-import { Component, ViewChild, OnInit, AfterViewInit, ChangeDetectorRef, ElementRef } from "@angular/core";
-import { Drawer } from "@nativescript-community/ui-drawer";
-import { RouterExtensions } from "@nativescript/angular";
+import { Component, ViewChild, OnInit, AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
+import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+import { Label } from "@nativescript/core";
 
 @Component({
   moduleId: module.id,
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit, OnInit {
 
-    drawer: Drawer;
+    private _mainContentText: string;
 
-    @ViewChild("drawer", { static: true }) drawerElementRef: ElementRef;
-
-    constructor(private router: RouterExtensions) {}
-
-
-    goBack(): void {
-        this.router.back();
+    constructor(private _changeDetectionRef: ChangeDetectorRef) {
     }
 
-    ngOnInit(): void {
-        this.drawer = this.drawerElementRef.nativeElement;
+    @ViewChild(RadSideDrawerComponent, { static: false }) public drawerComponent: RadSideDrawerComponent;
+    private drawer: RadSideDrawer;
+
+    ngAfterViewInit() {
+       this.drawer = this.drawerComponent.sideDrawer;
+       console.log('tenemos; ', this.drawerComponent);
+        this._changeDetectionRef.detectChanges();
     }
 
-    onOpenDrawer() {
-        this.drawer.open();
+    ngOnInit() {
+        this.mainContentText = "SideDrawer for NativeScript can be easily setup in the HTML definition of your page by defining tkDrawerContent and tkMainContent. The component has a default transition and position and also exposes notifications related to changes in its state. Swipe from left to open side drawer.";
     }
 
-    onCloseDrawer() {
-        this.drawer.close();
+    get mainContentText() {
+        return this._mainContentText;
+    }
+
+    set mainContentText(value: string) {
+        this._mainContentText = value;
+    }
+
+    public openDrawer() {
+        this.drawer.showDrawer();
+    }
+
+    public onCloseDrawerTap() {
+        this.drawer.closeDrawer();
     }
 }
